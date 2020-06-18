@@ -21,6 +21,6 @@ def create_app():
     ma.init_app(app)
 
     with app.app_context():
-        from . import routes  # Import routes
+        from . import resources  # Import routes
         db.create_all()  # Create sql tables for our data models
     return app
