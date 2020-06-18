@@ -2,3 +2,4 @@
 db.sqlite
 .idea
 __pycache__
+application/__pycache__
