@@ -4,8 +4,7 @@ import uuid  # public id generation
 from ..models import db, auth, Post, post_schema, posts_schema
 
 
-
-@app.route('/api/posts', methods=['POST'])
+@app.route('/posts', methods=['POST'])
 @auth.login_required
 def new_post():
     title = request.json['title']
@@ -18,7 +17,7 @@ def new_post():
     return abort(404)  # Not valid
 
 
-@app.route('/api/posts', methods=['GET'])
+@app.route('/posts', methods=['GET'])
 @auth.login_required
 def get_all_posts():
     """
@@ -28,7 +27,7 @@ def get_all_posts():
     return posts_schema.jsonify(Post.query.all())
 
 
-@app.route('/api/posts/<public_id>', methods=['GET'])
+@app.route('/posts/<public_id>', methods=['GET'])
 @auth.login_required
 def get_one_post(public_id):
     """
