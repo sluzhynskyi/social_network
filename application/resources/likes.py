@@ -3,6 +3,7 @@ from flask import current_app as app
 import uuid  # public id generation
 from ..models import db, auth, Like, like_schema, likes_schema
 
+
 @app.route('/posts/<int:post>/likes', methods=['Post'])
 @auth.login_required
 def post_like_unlike(post):
