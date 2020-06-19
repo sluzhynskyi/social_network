@@ -7,7 +7,6 @@ from ..models import db, auth, User, user_schema, users_schema
 @auth.verify_password
 def verify_password(usr_or_tkn, pwd):
     user = User.verify_auth_token(usr_or_tkn)
-    print(user, "Hello")
     if not user:
         user = User.query.filter(User.username == usr_or_tkn).first()
         if not user or not user.verify_password(pwd):
@@ -28,7 +27,7 @@ def new_user():
     if username and password:
         if User.query.filter_by(username=username).first():
             return abort(409)  # Exists user with that username -> conflict
-        user = User(username=username, public_id=str(uuid.uuid4()))
+        user = User(username=username, public_id=int(uuid.uuid4().time))
         user.hash_password(password)
         db.session.add(user)
         db.session.commit()

@@ -13,10 +13,11 @@ import jwt  # jwt token
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    public_id = db.Column(db.String(50), unique=True, nullable=False)
+    public_id = db.Column(db.Integer, unique=True, nullable=False)
     username = db.Column(db.String(32), index=True, nullable=False)
     password_hash = db.Column(db.String(64), nullable=False)
     posts = db.relationship('Post', backref='publisher')
+    likes = db.relationship('Like', backref='publisher')
     ctx = CryptContext(["sha256_crypt"])
 
     def hash_password(self, password):
@@ -37,7 +38,7 @@ class User(db.Model):
                               algorithms=['HS256'])
         except Exception as e:
             return False
-        return data['username']
+        return User.query.filter(User.username == data['username']).first()
 
     def __repr__(self):
         return f"<User {self.username}>"
