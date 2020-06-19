@@ -23,3 +23,12 @@ class LikeSchema(ma.Schema):
 
 like_schema = LikeSchema()
 likes_schema = LikeSchema(many=True)
+
+
+# Analytics Schema
+class AnalyticsSchema(ma.Schema):
+    class Meta:
+        fields = ('date', 'count')
+
+
+analytics_schema = AnalyticsSchema(many=True)
