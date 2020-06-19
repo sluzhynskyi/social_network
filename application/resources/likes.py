@@ -3,7 +3,6 @@ from flask import current_app as app
 import uuid  # public id generation
 from ..models import db, auth, Like, like_schema, likes_schema
 
-
 @app.route('/posts/<int:post>/likes', methods=['Post'])
 @auth.login_required
 def post_like_unlike(post):
@@ -23,7 +22,6 @@ def post_like_unlike(post):
 
 
 @app.route('/posts/<int:post>/likes', methods=['Get'])
-@auth.login_required
 def get_all_likes(post):
     """
     Returns all likes that has this post

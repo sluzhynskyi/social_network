@@ -1,7 +1,8 @@
 from flask import request, abort, g, jsonify
 from flask import current_app as app
 import uuid  # public id generation
-from ..models import db, auth, User, user_schema, users_schema
+from ..models import db, auth, User, user_schema, users_schema, activity_schema
+from datetime import datetime as dt
 
 
 @auth.verify_password
@@ -12,6 +13,7 @@ def verify_password(usr_or_tkn, pwd):
         if not user or not user.verify_password(pwd):
             return False
     g.user = user
+    g.user.last_request = dt.utcnow()
     return True
 
 
@@ -46,7 +48,7 @@ def get_user(username):
 @app.route('/session', methods=['Post'])
 @auth.login_required
 def login():
-    print("Im in")
+    g.user.last_login = dt.utcnow()
     token = g.user.generate_auth_token()
     return jsonify({'token': token.decode('ascii')})
 
@@ -55,4 +57,16 @@ def login():
 @auth.login_required
 def logout():
     g.user = None
-    return 'Logout', 401
+    return 'Logout', 200
+
+
+@app.route('/users/<username>/activity', methods=['Get'])
+@auth.login_required
+def get_activity(username):
+    """
+    Returns user last login date, and last request date.
+    """
+    user_activity = User.query.filter_by(username=username).first()
+    if user_activity:
+        return activity_schema.jsonify(user_activity)
+    return abort(404)

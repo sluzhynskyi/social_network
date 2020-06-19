@@ -19,6 +19,10 @@ class User(db.Model):
     posts = db.relationship('Post', backref='publisher')
     likes = db.relationship('Like', backref='publisher')
     ctx = CryptContext(["sha256_crypt"])
+    last_login = db.Column(db.DateTime, nullable=False,
+                           default=dt.utcnow)
+    last_request = db.Column(db.DateTime, nullable=False,
+                             default=dt.utcnow)
 
     def hash_password(self, password):
         self.password_hash = User.ctx.hash(password)
@@ -52,3 +56,12 @@ class UserSchema(ma.Schema):
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
+
+
+# UserActivity Schema
+class ActivitySchema(ma.Schema):
+    class Meta:
+        fields = ('last_login', 'last_request')
+
+
+activity_schema = ActivitySchema()

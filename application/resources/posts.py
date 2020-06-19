@@ -18,7 +18,6 @@ def new_post():
 
 
 @app.route('/posts', methods=['GET'])
-@auth.login_required
 def get_all_posts():
     """
     Gets all posts of all users
@@ -28,7 +27,6 @@ def get_all_posts():
 
 
 @app.route('/posts/<int:public_id>', methods=['GET'])
-@auth.login_required
 def get_one_post(public_id):
     """
     Gets specific post from all users
