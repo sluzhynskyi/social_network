@@ -4,10 +4,10 @@ from datetime import datetime as dt
 
 class Post(db.Model):
     __tablename__ = 'posts'
-    id = db.Column(db.Integer, primary_key=True)
-    public_id = db.Column(db.Integer, unique=True, nullable=False)
-    title = db.Column(db.String(80), nullable=False)
-    body = db.Column(db.Text, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)  # Private id
+    public_id = db.Column(db.Integer, unique=True, nullable=False)  # This id is used to show this in output
+    title = db.Column(db.String(80), nullable=False)  # Tittle of your post
+    body = db.Column(db.Text, nullable=False)  # Body-text of your post
     pub_date = db.Column(db.DateTime, nullable=False,
                          default=dt.utcnow)
     publisher_id = db.Column(db.Integer, db.ForeignKey('users.username'))

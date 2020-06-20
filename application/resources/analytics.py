@@ -9,6 +9,7 @@ from sqlalchemy import func
 def get_analytics():
     """"
     Returns analytics about how many likes was made, aggregated by day.
+    date_from and date_to gets from query in URL
     :param date_from: str
     :param date_to: str
     :return json

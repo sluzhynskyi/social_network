@@ -9,6 +9,7 @@ from ..models import db, auth, Like, like_schema, likes_schema
 def post_like_unlike(post):
     """
     Like post or unlike (like toggle)
+    Returns json where noticed details about like (like_schema)
     :param post: int
     :return: json
     """
@@ -25,7 +26,7 @@ def post_like_unlike(post):
 @app.route('/posts/<int:post>/likes', methods=['Get'])
 def get_all_likes(post):
     """
-    Returns all likes that has this post
+    Returns all likes that has this post, also with like that has state False (unliked)
     :param post: int
     :return: json
     """
